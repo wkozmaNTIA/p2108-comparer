@@ -4,9 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:P2108Comparer"
+        xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="P.2108 Comparison Tool" Height="600" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Menu Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="Export to CSV..." Name="mi_Export" Click="Mi_Export_Click" IsEnabled="{Binding IsExportable}"/>
+                <MenuItem Header="Save Plot as Image..." Name="mi_SaveAsImage" Click="Mi_SaveAsImage_Click" IsEnabled="{Binding IsSaveable}"/>
+                <Separator/>
+                <MenuItem Header="Exit" Name="mi_Exit" Click="Mi_Exit_Click"/>
+            </MenuItem>
+        </Menu>
+        <oxy:PlotView Grid.Row="1" Name="plot" Model="{Binding PlotModel}" Margin="3,3,20,3"/>
+        <DockPanel Grid.Row="2" Margin="3" LastChildFill="True">
+            <Button DockPanel.Dock="Right" Content="Render" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="3" Width="75" Name="btn_Render" Click="Btn_Render_Click" TabIndex="8"/>
+            <Grid Name="grid_InputControls"/>
+        </DockPanel>
     </Grid>
 </Window>

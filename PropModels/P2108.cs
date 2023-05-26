@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace P2108Comparer
+namespace P2108Comparer.PropModels
 {
-    static internal class P2108
+    internal static class P2108
     {
         const int SUCCESS = 0;
         const int FREQUENCY_ERROR = 1;
