@@ -4,8 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:P2108Comparer.UserControls"
+             xmlns:vr="clr-namespace:P2108Comparer.ValidationRules"
              mc:Ignorable="d" 
              d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -18,19 +26,43 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Common Inputs" HorizontalAlignment="Center" FontWeight="Bold"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Frequency (GHz):"/>
-        <TextBox Grid.Row="1" Grid.Column="1"/>
+        <TextBox Grid.Row="1" Grid.Column="1" TabIndex="0" Validation.Error="TextBox_Error">
+            <TextBox.Text>
+                <Binding Path="f__ghz"
+                         UpdateSourceTrigger="PropertyChanged"
+                         ValidatesOnDataErrors="True"
+                         NotifyOnValidationError="True"
+                         Mode="OneWayToSource"
+                         Converter="{StaticResource doubleConverter}"
+                         FallbackValue="10">
+                    <Binding.ValidationRules>
+                        <vr:FrequencyValidation/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Elevation Angle (deg):"/>
-        <TextBox Grid.Row="2" Grid.Column="1"/>
-
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="Time Percentage (%):"/>
-        <TextBox Grid.Row="3" Grid.Column="1"/>
+        <TextBox Grid.Row="2" Grid.Column="1" TabIndex="1" Validation.Error="TextBox_Error">
+            <TextBox.Text>
+                <Binding Path="theta__deg"
+                         UpdateSourceTrigger="PropertyChanged"
+                         ValidatesOnDataErrors="True"
+                         NotifyOnValidationError="True"
+                         Mode="OneWayToSource"
+                         Converter="{StaticResource doubleConverter}"
+                         FallbackValue="10">
+                    <Binding.ValidationRules>
+                        <vr:ElevationAngleValidation/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
         <TextBlock Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Text="TEMP2 Inputs" HorizontalAlignment="Center" FontWeight="Bold"/>
         

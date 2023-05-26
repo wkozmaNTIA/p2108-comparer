@@ -1,5 +1,8 @@
 ﻿using OxyPlot;
 using OxyPlot.Axes;
+using OxyPlot.Series;
+using P2108Comparer.Converters;
+using P2108Comparer.PropModels;
 using P2108Comparer.UserControls;
 using System;
 using System.Collections.Generic;
@@ -93,8 +96,8 @@ namespace P2108Comparer
             // configure x-axis
             _xAxis = new LinearAxis();
             _xAxis.Title = "Clutter Loss (dB)";
-            _xAxis.Minimum = Constants.XAXIS_MIN_DEFAULT;
-            _xAxis.Maximum = Constants.XAXIS_MAX_DEFAULT;
+            //_xAxis.Minimum = Constants.XAXIS_MIN_DEFAULT;
+            //_xAxis.Maximum = Constants.XAXIS_MAX_DEFAULT;
             _xAxis.MajorGridlineStyle = OxyPlot.LineStyle.Dot;
             _xAxis.Position = AxisPosition.Bottom;
             _xAxis.AxisChanged += XAxis_Changed;
@@ -122,6 +125,19 @@ namespace P2108Comparer
             IsExportable = false;
 
             var inputControl = grid_InputControls.Children[0] as SingleCurveInputsControl;
+
+            PlotModel.Series.Clear();
+
+            // generate time curve
+            var p2108Series = new LineSeries();
+            for (double t = 0.01; t <= 99.99; t += 0.01)
+            {
+                P2108.AeronauticalStatisticalModel(inputControl.f__ghz, inputControl.theta__deg, t, out double L_ces__db);
+                p2108Series.Points.Add(new DataPoint(L_ces__db, t));
+            }
+
+            PlotModel.Series.Add(p2108Series);
+            plot.InvalidatePlot();
         }
 
         private void Mi_Exit_Click(object sender, RoutedEventArgs e)
@@ -139,11 +155,85 @@ namespace P2108Comparer
 
         }
 
-        private void Btn_Render_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        private void Btn_Render_Click(object sender, RoutedEventArgs e) => Render();
 
         private void XAxis_Changed(object sender, AxisChangedEventArgs e) => IsExportable = false;
+
+        void Command_PlotMode(object sender, ExecutedRoutedEventArgs e)
+        {
+            // grab the command parameter
+            var plotMode = (PlotMode)e.Parameter;
+
+            // set the appropriate menu check
+            foreach (MenuItem mi in mi_Mode.Items)
+                mi.IsChecked = (PlotMode)mi.CommandParameter == plotMode;
+
+            // reset the UI
+            grid_InputControls.Children.Clear();
+            PlotModel.Series.Clear();
+            plot.InvalidatePlot();
+
+            UserControl userControl = null;
+
+            // set the application with the correct UI elements and configuration
+            switch (plotMode)
+            {
+                case PlotMode.Single:
+                    Render = RenderSingleCurve;
+                    //Export = CsvExport_SingleCurveInit;
+
+                    userControl = new SingleCurveInputsControl();
+                    break;
+
+                /*case PlotMode.MultipleLowTerminals:
+                    Render = RenderMultipleLowHeights;
+                    Export = CsvExport_MultipleLowTerminals;
+
+                    userControl = new MultipleLowHeightsInputsControl();
+
+                    IsModeOfPropEnabled = false;
+                    IsModeOfPropChecked = false;
+                    break;
+
+                case PlotMode.MultipleHighTerminals:
+                    Render = RenderMultipleHighHeights;
+                    Export = CsvExport_MultipleHighTerminals;
+
+                    userControl = new MultipleHighHeightsInputsControl();
+
+                    IsModeOfPropEnabled = false;
+                    IsModeOfPropChecked = false;
+                    break;
+
+                case PlotMode.MultipleTimes:
+                    Render = RenderMultipleTimes;
+                    Export = CsvExport_MultipleTimePercentages;
+
+                    userControl = new MultipleTimeInputsControl();
+
+                    IsModeOfPropEnabled = false;
+                    IsModeOfPropChecked = false;
+                    break;*/
+            }
+
+            grid_InputControls.Children.Add(userControl);
+
+            // define binding for input validation errors
+            Binding inputErrorBinding = new Binding("ErrorCnt");
+            inputErrorBinding.Source = userControl;
+            inputErrorBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            inputErrorBinding.Converter = new IntegerToBooleanConverter();
+
+            // force update the view
+            PlotModel.Series.Clear();
+            plot.InvalidatePlot();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            // initialized application for Single Curve Mode
+            var command = PlotModeCommand.Command;
+            command.Execute(PlotMode.Single);
+        }
     }
 }

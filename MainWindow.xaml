@@ -6,7 +6,15 @@
         xmlns:local="clr-namespace:P2108Comparer"
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="P.2108 Comparison Tool" Height="600" Width="800">
+        Title="P.2108 Comparison Tool" Height="600" Width="800"
+        Loaded="Window_Loaded">
+    <Window.Resources>
+        <RoutedCommand x:Key="PlotModeCommand"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource PlotModeCommand}" Executed="Command_PlotMode" x:Name="PlotModeCommand"/>
+    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,6 +28,12 @@
                 <MenuItem Header="Save Plot as Image..." Name="mi_SaveAsImage" Click="Mi_SaveAsImage_Click" IsEnabled="{Binding IsSaveable}"/>
                 <Separator/>
                 <MenuItem Header="Exit" Name="mi_Exit" Click="Mi_Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="Mode" Visibility="Visible" Name="mi_Mode">
+                <MenuItem Header="Single Curve" 
+                              IsChecked="True"
+                              Command="{StaticResource PlotModeCommand}"
+                              CommandParameter="{x:Static local:PlotMode.Single}"/>
             </MenuItem>
         </Menu>
         <oxy:PlotView Grid.Row="1" Name="plot" Model="{Binding PlotModel}" Margin="3,3,20,3"/>

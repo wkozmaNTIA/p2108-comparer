@@ -67,11 +67,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
+    <Compile Include="Converters\DoubleToStringConverter.cs" />
+    <Compile Include="Converters\IntegerToBooleanConverter.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="PropModels\TEMP2Model.cs" />
     <Compile Include="UserControls\SingleCurveInputsControl.xaml.cs">
       <DependentUpon>SingleCurveInputsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValidationRules\ElevationAngleValidation.cs" />
+    <Compile Include="ValidationRules\FrequencyValidation.cs" />
+    <Compile Include="ValidationRules\TimeValidation.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -84,6 +89,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\CommonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SingleCurveInputsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -117,5 +126,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
