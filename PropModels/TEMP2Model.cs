@@ -84,18 +84,7 @@ namespace P2108Comparer.PropModels
                     double B = -30 + 8 * Math.Log10(theta__deg + 1);    // [Eqn 18]
                     double C_t = B + A * Math.Log10(h_s__meter);        // [Eqn 17]
 
-                    // [Eqn 20]
-                    double K_1 = 93 * Math.Pow(f__ghz, 0.175);
-                    double A_1 = 0.05;
-                    // breaking Eqn 20 into parts cause of its size...
-                    double part1 = -K_1 * Math.Log(1 - LOSp / 100);
-                    double part2 = cot(A_1 * (1 - theta__deg / 90) + (Math.PI * theta__deg / 180));
-                    double part3 = 0.5 * (90 - theta__deg) / 90;
-                    double part4 = 0.6 * InverseComplementaryCumulativeDistribution(LOSp / 100);
-                    double L_ces__db = Math.Pow(part1 * part2, part3) - 1 - part4;
-
-                    double C_p = 0.7 * LOSp / 100;     // [Eqn 16]
-                    L_clt__db = C_t * C_p + L_ces__db - (C_t * C_p + L_ces__db) + 6 
+                    L_clt__db = C_t * C(p) + L_ces(f__ghz, theta__deg, p) - (C_t * C(LOSp) + L_ces(f__ghz, theta__deg, LOSp)) + 6 
                         - 0.1 * (h__meter - 5) * (p - LOSp) / 100;
 
                     L_clt__db = Math.Max(L_clt__db, 6);
@@ -103,6 +92,28 @@ namespace P2108Comparer.PropModels
 
                 return 0;
             }
+        }
+
+        private static double C(double p)
+        {
+            double C_p = 0.7 * p / 100;     // [Eqn 16]
+
+            return C_p;
+        }
+
+        private static double L_ces(double f__ghz, double theta__deg, double p)
+        {
+            // [Eqn 20]
+            double K_1 = 93 * Math.Pow(f__ghz, 0.175);
+            double A_1 = 0.05;
+            // breaking Eqn 20 into parts cause of its size...
+            double part1 = -K_1 * Math.Log(1 - p / 100);
+            double part2 = cot(A_1 * (1 - theta__deg / 90) + (Math.PI * theta__deg / 180));
+            double part3 = 0.5 * (90 - theta__deg) / 90;
+            double part4 = 0.6 * InverseComplementaryCumulativeDistribution(p / 100);
+            double L_ces__db = Math.Pow(part1 * part2, part3) - 1 - part4;
+
+            return L_ces__db;
         }
 
         private static double cot(double x)
