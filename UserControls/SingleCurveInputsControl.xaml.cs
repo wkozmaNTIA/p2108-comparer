@@ -1,4 +1,5 @@
-﻿using System;
+﻿using P2108Comparer.PropModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -30,6 +31,16 @@ namespace P2108Comparer.UserControls
         /// Elevation angle, in deg
         /// </summary>
         public double theta__deg { get; set; }
+
+        /// <summary>
+        /// Ground station height, in meter
+        /// </summary>
+        public double h__meter { get; set; }
+
+        /// <summary>
+        /// Clutter scenerio
+        /// </summary>
+        public TEMP2Model.Scenerio Scenerio { get; set; } = TEMP2Model.Scenerio.LowRise;
 
         /// <summary>
         /// Number of validation errors

@@ -69,6 +69,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="Converters\IntegerToBooleanConverter.cs" />
+    <Compile Include="Converters\ScenerioConverter.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="PropModels\TEMP2Model.cs" />
     <Compile Include="UserControls\SingleCurveInputsControl.xaml.cs">
@@ -76,6 +77,7 @@
     </Compile>
     <Compile Include="ValidationRules\ElevationAngleValidation.cs" />
     <Compile Include="ValidationRules\FrequencyValidation.cs" />
+    <Compile Include="ValidationRules\GroundStationHeightValidation.cs" />
     <Compile Include="ValidationRules\TimeValidation.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

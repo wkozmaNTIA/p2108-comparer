@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace P2108Comparer.PropModels
 {
-    internal static class TEMP2Model
+    public static class TEMP2Model
     {
-        internal enum Scenerio : int
+        public enum Scenerio : int
         {
             LowRise = 10,
             MidRise = 20,
@@ -25,22 +25,22 @@ namespace P2108Comparer.PropModels
             switch (scenerio)
             {
                 case Scenerio.LowRise:
-                    C_e = 0.08 * h__meter - 2;
-                    k = Math.Pow((h__meter + 10) / 8, 3);
+                    C_e = 0.08 * h__meter - 2;              // [Eqn 21a]
+                    k = Math.Pow((h__meter + 10) / 8, 3);   // [Eqn 21b]
                     break;
 
                 case Scenerio.MidRise:
-                    C_e = 0.22 * h__meter - 4;
-                    k = Math.Pow((h__meter - 1) / 8, 2.2);
+                    C_e = 0.22 * h__meter - 4;              // [Eqn 22a]
+                    k = Math.Pow((h__meter - 1) / 8, 2.2);  // [Eqn 22b]
                     break;
 
                 case Scenerio.HighRise:
-                    C_e = 0.2 * h__meter - 7;
-                    k = Math.Pow((h__meter - 1) / 8, 1.2);
+                    C_e = 0.2 * h__meter - 7;               // [Eqn 23a]
+                    k = Math.Pow((h__meter - 1) / 8, 1.2);  // [Eqn 23b]
                     break;
 
                 default:
-                    throw new Exception();
+                    throw new Exception();  // should never happen...
             }
 
             double numerator = 1 - Math.Pow(Math.E, -(theta__deg + C_e) / 90 * k);
@@ -61,16 +61,6 @@ namespace P2108Comparer.PropModels
             }
             else // h_s__meter - h__meter > 0
             {
-                //double M_0 = -6.03 + 0.1 * (h_s__meter - h__meter + 5);
-                //double M_1 = 2.67 - 1.58 * Math.Log10(h_s__meter - h__meter + 5);
-                //double M_2 = -0.00475 + 0.000262 * (h_s__meter - h__meter + 5);
-
-                //double LOSp_2prime;
-                //if (M_1 * theta__deg + M_2 * Math.Pow(theta__deg, 2) > 0)
-                //    LOSp_2prime = M_0 + M_1 * theta__deg + M_2 * Math.Pow(theta__deg, 2);
-                //else
-                //    LOSp_2prime = M_0;
-
                 if (p <= LOSp) // LOS
                 {
                     L_clt__db = Math.Pow(7, p / LOSp) - 1 - InverseComplementaryCumulativeDistribution(Math.Sqrt(p / LOSp) / 2);

@@ -14,9 +14,9 @@ namespace P2108Comparer.ValidationRules
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             if (string.IsNullOrEmpty((string)value) ||
-                !Double.TryParse(value.ToString(), out double theta) ||
-                theta < MINIMUM ||
-                theta > MAXIMUM)
+                !Double.TryParse(value.ToString(), out double theta__deg) ||
+                theta__deg < MINIMUM ||
+                theta__deg > MAXIMUM)
                 return new ValidationResult(false, InvalidInput);
 
             return ValidationResult.ValidResult;

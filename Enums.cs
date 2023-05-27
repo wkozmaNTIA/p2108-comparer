@@ -14,4 +14,11 @@ namespace P2108Comparer
         MultipleElevationAngles,
         MultipleSheildingHeights
     }
+
+    enum Scenerio : int
+    {
+        LowRise = 10,
+        MidRise = 20,
+        HighRise = 30
+    }
 }

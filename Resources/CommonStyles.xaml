@@ -5,13 +5,14 @@
                     xmlns:r="clr-namespace:P2108Comparer">
     <!-- Data Converters -->
     <cvtr:DoubleToStringConverter x:Key="doubleConverter"/>
+    <cvtr:ScenerioConverter x:Key="scenerioConverter"/>
 
     <!-- Object Data Providers -->
-    <!--<ObjectDataProvider x:Key="enumPolarization" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+    <ObjectDataProvider x:Key="enumScenerio" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="r:Polarization"/>
+            <x:Type TypeName="r:Scenerio"/>
         </ObjectDataProvider.MethodParameters>
-    </ObjectDataProvider>-->
+    </ObjectDataProvider>
 
     <!-- Common Input Control Styling -->
     <Style TargetType="TextBox">

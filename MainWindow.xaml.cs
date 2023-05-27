@@ -1,5 +1,6 @@
 ﻿using OxyPlot;
 using OxyPlot.Axes;
+using OxyPlot.Legends;
 using OxyPlot.Series;
 using P2108Comparer.Converters;
 using P2108Comparer.PropModels;
@@ -125,23 +126,53 @@ namespace P2108Comparer
             IsExportable = false;
 
             var inputControl = grid_InputControls.Children[0] as SingleCurveInputsControl;
+            double f__ghz = inputControl.f__ghz;
+            double theta__deg = inputControl.theta__deg;
+            double h__meter = inputControl.h__meter;
+            var scenerio = inputControl.Scenerio;
 
             PlotModel.Series.Clear();
 
             // generate time curves
-            var p2108Series = new LineSeries();
-            var TEMP2Series = new LineSeries();
-            for (double t = 0.01; t <= 99.99; t += 0.01)
+            var p2108Series = new LineSeries()
             {
-                P2108.AeronauticalStatisticalModel(inputControl.f__ghz, inputControl.theta__deg, t, out double L_ces__db);
-                p2108Series.Points.Add(new DataPoint(L_ces__db, t));
+                LineStyle = LineStyle.Solid,
+                StrokeThickness = 2,
+                Title = "Rec P.2108-1",
+                Color = Constants.Colors[0]
+            };
+            var TEMP2Series = new LineSeries()
+            {
+                LineStyle = LineStyle.Solid,
+                StrokeThickness = 2,
+                Title = "Proposed Revision",
+                Color = Constants.Colors[1]
+            };
+            for (double p = 0.01; p <= 99.99; p += 0.01)
+            {
+                P2108.AeronauticalStatisticalModel(f__ghz, theta__deg, p, out double L_ces__db);
+                p2108Series.Points.Add(new DataPoint(L_ces__db, p));
 
-                TEMP2Model.AeronauticalStatisticalModel(inputControl.f__ghz, inputControl.theta__deg, t, 3, TEMP2Model.Scenerio.MidRise, false, out double L_clt__db);
-                TEMP2Series.Points.Add(new DataPoint(L_clt__db, t));
+                TEMP2Model.AeronauticalStatisticalModel(f__ghz, theta__deg, p, h__meter, scenerio, false, out double L_clt__db);
+                TEMP2Series.Points.Add(new DataPoint(L_clt__db, p));
             }
 
+            // add series
             PlotModel.Series.Add(p2108Series);
             PlotModel.Series.Add(TEMP2Series);
+
+            // update title
+            PlotModel.Title = $"Slant-Path Clutter Model Comparison at {f__ghz} GHz";
+            PlotModel.Subtitle = $"theta(deg) = {theta__deg}; h(m) = {h__meter}; scenerio = {scenerio}(h_s = {(int)scenerio})";
+
+            PlotModel.Legends.Add(new Legend()
+            {
+                LegendPosition = LegendPosition.BottomRight,
+                LegendPlacement = LegendPlacement.Inside,
+                LegendOrientation = LegendOrientation.Vertical,
+                LegendBorder = OxyColors.Black,
+                LegendBackground = OxyColors.White
+            });
 
             plot.InvalidatePlot();
         }
