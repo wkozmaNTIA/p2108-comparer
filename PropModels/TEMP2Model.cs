@@ -54,12 +54,12 @@ namespace P2108Comparer.PropModels
                 L_clt__db = 0;
                 return 0;
             }
-            else if (h_s__meter - h_s__meter == 0)
+            else if (h_s__meter - h__meter == 0)
             {
                 L_clt__db = 0.06 * p * Math.Pow(Math.E, -2 * theta__deg);
                 return 0;
             }
-            else // h_s__meter - h_s__meter > 0
+            else // h_s__meter - h__meter > 0
             {
                 //double M_0 = -6.03 + 0.1 * (h_s__meter - h__meter + 5);
                 //double M_1 = 2.67 - 1.58 * Math.Log10(h_s__meter - h__meter + 5);
