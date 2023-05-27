@@ -1,0 +1,47 @@
+﻿<Window x:Class="P2108Comparer.Windows.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:P2108Comparer.Windows"
+        mc:Ignorable="d"
+        Title="About..." SizeToContent="WidthAndHeight" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Created by:" />
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Billy Kozma (wkozma@ntia.gov)"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Application Version:"/>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+            <TextBlock Text="X.X.X" Name="tb_AppVersion"/>
+            <TextBlock Name="tb_NewVersion" Visibility="Hidden">
+                <Hyperlink NavigateUri="https://github.com/NTIA/p528-gui/releases" RequestNavigate="Hyperlink_RequestNavigate">New Version Available!</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="GitHub Repo:"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" >
+            <Hyperlink NavigateUri="https://github.com/wkozmaNTIA/p2108-comparer" RequestNavigate="Hyperlink_RequestNavigate">https://github.com/wkozmaNTIA/p2108-comparer</Hyperlink>
+        </TextBlock>
+    </Grid>
+</Window>

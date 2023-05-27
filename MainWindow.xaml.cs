@@ -6,10 +6,13 @@ using OxyPlot.Series;
 using P2108Comparer.Converters;
 using P2108Comparer.PropModels;
 using P2108Comparer.UserControls;
+using P2108Comparer.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,10 +40,7 @@ namespace P2108Comparer
         /// </summary>
         private readonly LinearAxis _yAxis;
 
-        /// <summary>
-        /// Is analysis able to be exported to CSV
-        /// </summary>
-        private bool _isExportable = false;
+        private BackgroundWorker _versionCheckerWorker;
 
         /// <summary>
         /// Data backing the plot UI control
@@ -89,6 +89,42 @@ namespace P2108Comparer
             DataContext = this;
 
             Render = RenderSingleCurve;
+
+            _versionCheckerWorker = new BackgroundWorker();
+            _versionCheckerWorker.DoWork += _versionCheckerWorker_DoWork;
+            _versionCheckerWorker.RunWorkerAsync();
+        }
+
+        private void _versionCheckerWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var appVersion = Assembly.GetExecutingAssembly().GetName().Version;
+
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident / 6.0)");
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+
+                HttpResponseMessage response = client.GetAsync(@"https://api.github.com/repos/wkozma/p2108-comparer/releases/latest").GetAwaiter().GetResult();
+                response.EnsureSuccessStatusCode();
+                string responseBody = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                // parse version number
+                var index_start = responseBody.IndexOf("tag_name");
+                var index_end = responseBody.IndexOf(",", index_start);
+                var version = responseBody.Substring(index_start, index_end - index_start).Replace(@"""", "").Split(':')[1];
+
+                int major = Convert.ToInt32(version.Split('.')[0].Replace("v", ""));
+                int minor = Convert.ToInt32(version.Split('.')[1]);
+
+                if (major > appVersion.Major ||
+                    major == appVersion.Major && minor > appVersion.Minor)
+                    MessageBox.Show("Updated Version Available", "Update Available", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch
+            {
+                // do nothing is something fails
+            }
         }
 
         private void RenderSingleCurve()
@@ -244,5 +280,8 @@ namespace P2108Comparer
             var command = PlotModeCommand.Command;
             command.Execute(PlotMode.Single);
         }
+
+        private void Mi_About_Click(object sender, RoutedEventArgs e)
+            => new AboutWindow().ShowDialog();
     }
 }
