@@ -128,15 +128,21 @@ namespace P2108Comparer
 
             PlotModel.Series.Clear();
 
-            // generate time curve
+            // generate time curves
             var p2108Series = new LineSeries();
+            var TEMP2Series = new LineSeries();
             for (double t = 0.01; t <= 99.99; t += 0.01)
             {
                 P2108.AeronauticalStatisticalModel(inputControl.f__ghz, inputControl.theta__deg, t, out double L_ces__db);
                 p2108Series.Points.Add(new DataPoint(L_ces__db, t));
+
+                TEMP2Model.AeronauticalStatisticalModel(inputControl.f__ghz, inputControl.theta__deg, t, 3, TEMP2Model.Scenerio.MidRise, false, out double L_clt__db);
+                TEMP2Series.Points.Add(new DataPoint(L_clt__db, t));
             }
 
             PlotModel.Series.Add(p2108Series);
+            PlotModel.Series.Add(TEMP2Series);
+
             plot.InvalidatePlot();
         }
 
