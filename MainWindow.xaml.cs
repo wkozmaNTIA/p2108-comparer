@@ -95,6 +95,9 @@ namespace P2108Comparer
             _versionCheckerWorker.RunWorkerAsync();
         }
 
+        /// <summary>
+        /// Check if an updated version of the application is available for download
+        /// </summary>
         private void _versionCheckerWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             var appVersion = Assembly.GetExecutingAssembly().GetName().Version;
@@ -119,7 +122,7 @@ namespace P2108Comparer
 
                 if (major > appVersion.Major ||
                     major == appVersion.Major && minor > appVersion.Minor)
-                    MessageBox.Show("Updated Version Available", "Update Available", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Updated Version Available.\nDownload from GitHub page.\nSee About Window for link.", "Update Available", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch
             {
@@ -127,17 +130,22 @@ namespace P2108Comparer
             }
         }
 
+        /// <summary>
+        /// Render a single curve comparison
+        /// </summary>
         private void RenderSingleCurve()
         {
+            // grab values from input control
             var inputControl = grid_InputControls.Children[0] as SingleCurveInputsControl;
             double f__ghz = inputControl.f__ghz;
             double theta__deg = inputControl.theta__deg;
             double h__meter = inputControl.h__meter;
             var scenerio = inputControl.Scenerio;
 
+            // clear any current data on the plot
             PlotModel.Series.Clear();
 
-            // generate time curves
+            // set up line series
             var p2108Series = new LineSeries()
             {
                 LineStyle = LineStyle.Solid,
@@ -152,6 +160,8 @@ namespace P2108Comparer
                 Title = "Proposed Revision",
                 Color = Constants.Colors[1]
             };
+
+            // generate curve data from 0.01% to 99.99%
             for (double p = 0.01; p <= 99.99; p += 0.01)
             {
                 P2108.AeronauticalStatisticalModel(f__ghz, theta__deg, p, out double L_ces__db);
@@ -161,14 +171,15 @@ namespace P2108Comparer
                 TEMP2Series.Points.Add(new DataPoint(L_clt__db, p));
             }
 
-            // add series
+            // add series to plot
             PlotModel.Series.Add(p2108Series);
             PlotModel.Series.Add(TEMP2Series);
 
-            // update title
+            // update plot title
             PlotModel.Title = $"Slant-Path Clutter Model Comparison at {f__ghz} GHz";
             PlotModel.Subtitle = $"theta = {theta__deg} deg; h = {h__meter} meter; {scenerio} (h_s = {(int)scenerio} meter)";
 
+            // add legend to plot
             PlotModel.Legends.Add(new Legend()
             {
                 LegendPosition = LegendPosition.BottomRight,
@@ -178,11 +189,18 @@ namespace P2108Comparer
                 LegendBackground = OxyColors.White
             });
 
+            // force plot redraw
             plot.InvalidatePlot();
         }
 
+        /// <summary>
+        /// Exit the application
+        /// </summary>
         private void Mi_Exit_Click(object sender, RoutedEventArgs e) => this.Close();
 
+        /// <summary>
+        /// Export the plot as a PNG image to a user-defined file
+        /// </summary>
         private void Mi_SaveAsImage_Click(object sender, RoutedEventArgs e)
         {
             var fileDialog = new SaveFileDialog
@@ -202,6 +220,9 @@ namespace P2108Comparer
             }
         }
 
+        /// <summary>
+        /// Update the plot
+        /// </summary>
         private void Btn_Render_Click(object sender, RoutedEventArgs e) => Render();
 
         void Command_PlotMode(object sender, ExecutedRoutedEventArgs e)
@@ -268,6 +289,9 @@ namespace P2108Comparer
             inputErrorBinding.Source = userControl;
             inputErrorBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             inputErrorBinding.Converter = new IntegerToBooleanConverter();
+
+            // bind the Render button to the input error count
+            BindingOperations.SetBinding(btn_Render, IsEnabledProperty, inputErrorBinding);
 
             // force update the view
             PlotModel.Series.Clear();
