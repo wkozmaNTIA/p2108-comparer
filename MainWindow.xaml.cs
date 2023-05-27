@@ -1,4 +1,5 @@
-﻿using OxyPlot;
+﻿using Microsoft.Win32;
+using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Legends;
 using OxyPlot.Series;
@@ -42,46 +43,12 @@ namespace P2108Comparer
         private bool _isExportable = false;
 
         /// <summary>
-        /// Is figure able to be saved as image
-        /// </summary>
-        private bool _isSaveable = false;
-
-        /// <summary>
         /// Data backing the plot UI control
         /// </summary>
         public PlotModel PlotModel { get; set; }
 
-        /// <summary>
-        /// Is the plot in an exportable state
-        /// </summary>
-        public bool IsExportable
-        {
-            get { return _isExportable; }
-            set
-            {
-                _isExportable = value;
-                OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Is the plot in a saveable state
-        /// </summary>
-        public bool IsSaveable
-        {
-            get { return _isSaveable; }
-            set
-            {
-                _isSaveable = value;
-                OnPropertyChanged();
-            }
-        }
-
         private delegate void RenderPlot();
         private RenderPlot Render;
-
-        private delegate void ExportData();
-        private ExportData Export;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -97,15 +64,14 @@ namespace P2108Comparer
             // configure x-axis
             _xAxis = new LinearAxis();
             _xAxis.Title = "Clutter Loss (dB)";
-            //_xAxis.Minimum = Constants.XAXIS_MIN_DEFAULT;
-            //_xAxis.Maximum = Constants.XAXIS_MAX_DEFAULT;
+            _xAxis.FontSize = 16;
             _xAxis.MajorGridlineStyle = OxyPlot.LineStyle.Dot;
             _xAxis.Position = AxisPosition.Bottom;
-            _xAxis.AxisChanged += XAxis_Changed;
 
             // configure y-axis
             _yAxis = new LinearAxis();
             _yAxis.Title = "Percentage (%)";
+            _yAxis.FontSize = 16;
             _yAxis.MajorGridlineStyle = OxyPlot.LineStyle.Dot;
             _yAxis.Position = AxisPosition.Left;
             _yAxis.Minimum = Constants.YAXIS_MIN_DEFAULT;
@@ -115,6 +81,10 @@ namespace P2108Comparer
             PlotModel.Axes.Add(_xAxis);
             PlotModel.Axes.Add(_yAxis);
 
+            PlotModel.Background = OxyColors.White;
+            PlotModel.TitleFontSize = 20;
+            PlotModel.SubtitleFontSize = 16;
+
             // enable data binding
             DataContext = this;
 
@@ -123,8 +93,6 @@ namespace P2108Comparer
 
         private void RenderSingleCurve()
         {
-            IsExportable = false;
-
             var inputControl = grid_InputControls.Children[0] as SingleCurveInputsControl;
             double f__ghz = inputControl.f__ghz;
             double theta__deg = inputControl.theta__deg;
@@ -163,7 +131,7 @@ namespace P2108Comparer
 
             // update title
             PlotModel.Title = $"Slant-Path Clutter Model Comparison at {f__ghz} GHz";
-            PlotModel.Subtitle = $"theta(deg) = {theta__deg}; h(m) = {h__meter}; scenerio = {scenerio}(h_s = {(int)scenerio})";
+            PlotModel.Subtitle = $"theta = {theta__deg} deg; h = {h__meter} meter; {scenerio} (h_s = {(int)scenerio} meter)";
 
             PlotModel.Legends.Add(new Legend()
             {
@@ -177,24 +145,28 @@ namespace P2108Comparer
             plot.InvalidatePlot();
         }
 
-        private void Mi_Exit_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        private void Mi_Exit_Click(object sender, RoutedEventArgs e) => this.Close();
 
         private void Mi_SaveAsImage_Click(object sender, RoutedEventArgs e)
         {
+            var fileDialog = new SaveFileDialog
+            {
+                DefaultExt = ".png",
+                Filter = "Portable Network Graphics (.png)|*.png"
+            };
 
-        }
-
-        private void Mi_Export_Click(object sender, RoutedEventArgs e)
-        {
-
+            if (fileDialog.ShowDialog().Value)
+            {
+                var pngExporter = new OxyPlot.Wpf.PngExporter
+                {
+                    Width = 600,
+                    Height = 400
+                };
+                OxyPlot.Wpf.ExporterExtensions.ExportToFile(pngExporter, PlotModel, fileDialog.FileName);
+            }
         }
 
         private void Btn_Render_Click(object sender, RoutedEventArgs e) => Render();
-
-        private void XAxis_Changed(object sender, AxisChangedEventArgs e) => IsExportable = false;
 
         void Command_PlotMode(object sender, ExecutedRoutedEventArgs e)
         {
