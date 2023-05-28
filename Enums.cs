@@ -21,4 +21,12 @@
         Isotropic,
         Directional
     }
+
+    enum LegendPosition
+    {
+        Northeast,
+        Northwest,
+        Southeast,
+        Southwest
+    }
 }

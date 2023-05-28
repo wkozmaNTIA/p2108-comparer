@@ -183,7 +183,7 @@ namespace P2108Comparer
             // add legend to plot
             PlotModel.Legends.Add(new Legend()
             {
-                LegendPosition = LegendPosition.BottomRight,
+                LegendPosition = OxyPlot.Legends.LegendPosition.BottomRight,
                 LegendPlacement = LegendPlacement.Inside,
                 LegendOrientation = LegendOrientation.Vertical,
                 LegendBorder = OxyColors.Black,
@@ -342,6 +342,37 @@ namespace P2108Comparer
             _yAxis.Minimum = Double.NaN;
 
             plot.ResetAllAxes();
+        }
+
+        private void CommandBinding_LegendPosition(object sender, ExecutedRoutedEventArgs e)
+        {
+            // clear checks
+            foreach (MenuItem mi in mi_View_LegendPosition.Items)
+                mi.IsChecked = false;
+
+            var position = (LegendPosition)e.Parameter;
+
+            switch (position)
+            {
+                case LegendPosition.Northwest:
+                    PlotModel.Legends[0].LegendPosition = OxyPlot.Legends.LegendPosition.TopLeft;
+                    mi_LegendPosition_Northwest.IsChecked = true;
+                    break;
+                case LegendPosition.Northeast:
+                    PlotModel.Legends[0].LegendPosition = OxyPlot.Legends.LegendPosition.TopRight;
+                    mi_LegendPosition_Northeast.IsChecked = true;
+                    break;
+                case LegendPosition.Southwest:
+                    PlotModel.Legends[0].LegendPosition = OxyPlot.Legends.LegendPosition.BottomLeft;
+                    mi_LegendPosition_Southwest.IsChecked= true;
+                    break;
+                case LegendPosition.Southeast:
+                    PlotModel.Legends[0].LegendPosition = OxyPlot.Legends.LegendPosition.BottomRight;
+                    mi_LegendPosition_Southeast.IsChecked = true;
+                    break;
+            }
+
+            plot.InvalidatePlot();
         }
     }
 }

@@ -10,10 +10,12 @@
         Loaded="Window_Loaded">
     <Window.Resources>
         <RoutedCommand x:Key="PlotModeCommand"/>
+        <RoutedCommand x:Key="LegendPositionCommand"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="{StaticResource PlotModeCommand}" Executed="Command_PlotMode" x:Name="PlotModeCommand"/>
+        <CommandBinding Command="{StaticResource LegendPositionCommand}" Executed="CommandBinding_LegendPosition"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -38,6 +40,25 @@
                 <MenuItem Header="Plot Axis...">
                     <MenuItem Header="Set Axis Limits" Name="mi_SetAxisLimits" Click="Mi_SetAxisLimits_Click"/>
                     <MenuItem Header="Reset to Defaults" Name="mi_ResetAxisLimits" Click="Mi_ResetAxisLimits_Click"/>
+                </MenuItem>
+                <MenuItem Header="Legend Position..." Name="mi_View_LegendPosition">
+                    <MenuItem Header="Northeast"
+                              Name="mi_LegendPosition_Northeast"
+                              Command="{StaticResource LegendPositionCommand}"
+                              CommandParameter="{x:Static local:LegendPosition.Northeast}"/>
+                    <MenuItem Header="Southeast" 
+                              IsChecked="True"
+                              Name="mi_LegendPosition_Southeast"
+                              Command="{StaticResource LegendPositionCommand}"
+                              CommandParameter="{x:Static local:LegendPosition.Southeast}"/>
+                    <MenuItem Header="Southwest"
+                              Name="mi_LegendPosition_Southwest"
+                              Command="{StaticResource LegendPositionCommand}"
+                              CommandParameter="{x:Static local:LegendPosition.Southwest}"/>
+                    <MenuItem Header="Northwest" 
+                              Name="mi_LegendPosition_Northwest"
+                              Command="{StaticResource LegendPositionCommand}"
+                              CommandParameter="{x:Static local:LegendPosition.Northwest}"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="About" Name="mi_About" Click="Mi_About_Click"/>
