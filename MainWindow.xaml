@@ -34,6 +34,12 @@
                               Command="{StaticResource PlotModeCommand}"
                               CommandParameter="{x:Static local:PlotMode.Single}"/>
             </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Plot Axis...">
+                    <MenuItem Header="Set Axis Limits" Name="mi_SetAxisLimits" Click="Mi_SetAxisLimits_Click"/>
+                    <MenuItem Header="Reset to Defaults" Name="mi_ResetAxisLimits" Click="Mi_ResetAxisLimits_Click"/>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="About" Name="mi_About" Click="Mi_About_Click"/>
         </Menu>
         <oxy:PlotView Grid.Row="1" Name="plot" Model="{Binding PlotModel}" Margin="3,3,20,3"/>

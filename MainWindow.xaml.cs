@@ -192,6 +192,7 @@ namespace P2108Comparer
 
             // force plot redraw
             plot.InvalidatePlot();
+            ResetPlotAxis();
         }
 
         /// <summary>
@@ -308,5 +309,39 @@ namespace P2108Comparer
 
         private void Mi_About_Click(object sender, RoutedEventArgs e)
             => new AboutWindow().ShowDialog();
+
+        private void Mi_SetAxisLimits_Click(object sender, RoutedEventArgs e)
+        {
+            var limitsWndw = new SetAxisWindow()
+            {
+                XAxisMaximum = _xAxis.ActualMaximum,
+                XAxisMinimum = _xAxis.ActualMinimum,
+                YAxisMaximum = _yAxis.ActualMaximum,
+                YAxisMinimum = _yAxis.ActualMinimum,
+            };
+
+            if (!limitsWndw.ShowDialog().Value)
+                return;
+
+            _xAxis.Maximum = limitsWndw.XAxisMaximum;
+            _xAxis.Minimum = limitsWndw.XAxisMinimum;
+
+            _yAxis.Maximum = limitsWndw.YAxisMaximum;
+            _yAxis.Minimum = limitsWndw.YAxisMinimum;
+
+            plot.InvalidatePlot();
+        }
+
+        private void Mi_ResetAxisLimits_Click(object sender, RoutedEventArgs e) => ResetPlotAxis();
+
+        private void ResetPlotAxis()
+        {
+            _xAxis.Minimum = Double.NaN;
+            _xAxis.Minimum = Double.NaN;
+            _yAxis.Maximum = Double.NaN;
+            _yAxis.Minimum = Double.NaN;
+
+            plot.ResetAllAxes();
+        }
     }
 }

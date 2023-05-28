@@ -7,6 +7,7 @@
     <cvtr:DoubleToStringConverter x:Key="doubleConverter"/>
     <cvtr:ScenerioConverter x:Key="scenerioConverter"/>
     <cvtr:AntennaConverter x:Key="antennaConverter"/>
+    <cvtr:IntegerToBooleanConverter x:Key="integerConverter"/>
 
     <!-- Object Data Providers -->
     <ObjectDataProvider x:Key="enumScenerio" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">

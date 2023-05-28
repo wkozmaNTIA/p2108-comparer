@@ -68,6 +68,7 @@
     </ApplicationDefinition>
     <Compile Include="Constants.cs" />
     <Compile Include="Converters\AntennaConverter.cs" />
+    <Compile Include="Converters\BooleanInverterConverter.cs" />
     <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="Converters\IntegerToBooleanConverter.cs" />
     <Compile Include="Converters\ScenerioConverter.cs" />
@@ -76,12 +77,19 @@
     <Compile Include="UserControls\SingleCurveInputsControl.xaml.cs">
       <DependentUpon>SingleCurveInputsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ValidationRules\DoubleValidation.cs" />
     <Compile Include="ValidationRules\ElevationAngleValidation.cs" />
     <Compile Include="ValidationRules\FrequencyValidation.cs" />
     <Compile Include="ValidationRules\GroundStationHeightValidation.cs" />
+    <Compile Include="ValidationRules\MinimumValueValidation.cs" />
     <Compile Include="ValidationRules\TimeValidation.cs" />
+    <Compile Include="ValidationRules\XAxisLimitsValidation.cs" />
+    <Compile Include="ValidationRules\YAxisLimitsValidation.cs" />
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SetAxisWindow.xaml.cs">
+      <DependentUpon>SetAxisWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -104,6 +112,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SetAxisWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
