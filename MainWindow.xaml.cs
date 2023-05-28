@@ -149,7 +149,7 @@ namespace P2108Comparer
             // set up line series
             var p2108Series = new LineSeries()
             {
-                LineStyle = LineStyle.Solid,
+                LineStyle = LineStyle.Dot,
                 StrokeThickness = 2,
                 Title = "Rec P.2108-1",
                 Color = Constants.Colors[0]
@@ -159,7 +159,7 @@ namespace P2108Comparer
                 LineStyle = LineStyle.Solid,
                 StrokeThickness = 2,
                 Title = "Proposed Revision",
-                Color = Constants.Colors[1]
+                Color = Constants.Colors[0]
             };
 
             // generate curve data from 0.01% to 99.99%
@@ -216,14 +216,14 @@ namespace P2108Comparer
                 // set up line series
                 var p2108Series = new LineSeries()
                 {
-                    LineStyle = LineStyle.Solid,
+                    LineStyle = LineStyle.Dot,
                     StrokeThickness = 2,
                     Title = $"Rec P.2108-1, {f__ghz} GHz",
                     Color = color
                 };
                 var TEMP2Series = new LineSeries()
                 {
-                    LineStyle = LineStyle.Dot,
+                    LineStyle = LineStyle.Solid,
                     StrokeThickness = 2,
                     Title = $"Proposed Revision, {f__ghz} GHz",
                     Color = color
@@ -284,14 +284,14 @@ namespace P2108Comparer
                 // set up line series
                 var p2108Series = new LineSeries()
                 {
-                    LineStyle = LineStyle.Solid,
+                    LineStyle = LineStyle.Dot,
                     StrokeThickness = 2,
                     Title = $"Rec P.2108-1, {theta__deg} deg",
                     Color = color
                 };
                 var TEMP2Series = new LineSeries()
                 {
-                    LineStyle = LineStyle.Dot,
+                    LineStyle = LineStyle.Solid,
                     StrokeThickness = 2,
                     Title = $"Proposed Revision, {theta__deg} deg",
                     Color = color
