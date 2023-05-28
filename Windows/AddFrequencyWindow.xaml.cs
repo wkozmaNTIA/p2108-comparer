@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 
 namespace P2108Comparer.Windows
 {
-    public partial class AddFrequencieWindow : Window, INotifyPropertyChanged
+    public partial class AddFrequencyWindow : Window, INotifyPropertyChanged
     {
         private int _errorCnt = 0;
 
@@ -40,7 +40,7 @@ namespace P2108Comparer.Windows
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public AddFrequencieWindow()
+        public AddFrequencyWindow()
         {
             InitializeComponent();
 

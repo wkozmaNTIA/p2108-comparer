@@ -91,8 +91,8 @@
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\AddFrequencieWindow.xaml.cs">
-      <DependentUpon>AddFrequencieWindow.xaml</DependentUpon>
+    <Compile Include="Windows\AddFrequencyWindow.xaml.cs">
+      <DependentUpon>AddFrequencyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SetAxisWindow.xaml.cs">
       <DependentUpon>SetAxisWindow.xaml</DependentUpon>
@@ -125,7 +125,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\AddFrequencieWindow.xaml">
+    <Page Include="Windows\AddFrequencyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

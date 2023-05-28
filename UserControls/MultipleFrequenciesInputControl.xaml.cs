@@ -85,7 +85,7 @@ namespace P2108Comparer.UserControls
 
         private void Btn_Add_Click(object sender, RoutedEventArgs e)
         {
-            var wndw = new AddFrequencieWindow();
+            var wndw = new AddFrequencyWindow();
 
             if (!wndw.ShowDialog().Value)
                 return;
