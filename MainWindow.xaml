@@ -38,6 +38,9 @@
                 <MenuItem Header="Multiple Frequencies"
                           Command="{StaticResource PlotModeCommand}"
                           CommandParameter="{x:Static local:PlotMode.MultipleFrequencies}"/>
+                <MenuItem Header="Multiple Elevation Angles"
+                          Command="{StaticResource PlotModeCommand}"
+                          CommandParameter="{x:Static local:PlotMode.MultipleElevationAngles}"/>
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Plot Axis...">

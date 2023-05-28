@@ -263,6 +263,74 @@ namespace P2108Comparer
             ResetPlotAxis();
         }
 
+        private void RenderMultipleElevationAngles()
+        {
+            // grab values from input control
+            var inputControl = grid_InputControls.Children[0] as MultipleElevationAnglesInputControl;
+            double f__ghz = inputControl.f__ghz;
+            var angles = inputControl.angles;
+            double h__meter = inputControl.h__meter;
+            var scenerio = inputControl.Scenerio;
+            var antenna = inputControl.Antenna;
+
+            // clear any current data on the plot
+            PlotModel.Series.Clear();
+
+            for (int i = 0; i < angles.Count; i++)
+            {
+                double theta__deg = angles[i];
+                var color = Constants.Colors[i % Constants.Colors.Length];
+
+                // set up line series
+                var p2108Series = new LineSeries()
+                {
+                    LineStyle = LineStyle.Solid,
+                    StrokeThickness = 2,
+                    Title = $"Rec P.2108-1, {theta__deg} deg",
+                    Color = color
+                };
+                var TEMP2Series = new LineSeries()
+                {
+                    LineStyle = LineStyle.Dot,
+                    StrokeThickness = 2,
+                    Title = $"Proposed Revision, {theta__deg} deg",
+                    Color = color
+                };
+
+                // generate curve data from 0.01% to 99.99%
+                for (double p = 0.01; p <= 99.99; p += 0.01)
+                {
+                    P2108.AeronauticalStatisticalModel(f__ghz, theta__deg, p, out double L_ces__db);
+                    p2108Series.Points.Add(new DataPoint(L_ces__db, p));
+
+                    TEMP2Model.AeronauticalStatisticalModel(f__ghz, theta__deg, p, h__meter, scenerio, antenna, out double L_clt__db);
+                    TEMP2Series.Points.Add(new DataPoint(L_clt__db, p));
+                }
+
+                // add series to plot
+                PlotModel.Series.Add(p2108Series);
+                PlotModel.Series.Add(TEMP2Series);
+
+                // update plot title
+                PlotModel.Title = $"Slant-Path Clutter Model Comparison at Multiple Elevation Angles";
+                PlotModel.Subtitle = $"freq = {f__ghz} GHz; h = {h__meter} meter; {scenerio} (h_s = {(int)scenerio} meter)";
+            }
+
+            // add legend to plot
+            PlotModel.Legends.Add(new Legend()
+            {
+                LegendPosition = OxyPlot.Legends.LegendPosition.BottomRight,
+                LegendPlacement = LegendPlacement.Inside,
+                LegendOrientation = LegendOrientation.Vertical,
+                LegendBorder = OxyColors.Black,
+                LegendBackground = OxyColors.White
+            });
+
+            // force plot redraw
+            plot.InvalidatePlot();
+            ResetPlotAxis();
+        }
+
         /// <summary>
         /// Exit the application
         /// </summary>
@@ -326,35 +394,11 @@ namespace P2108Comparer
                     userControl = new MultipleFrequenciesInputControl();
                     break;
 
-                /*case PlotMode.MultipleLowTerminals:
-                    Render = RenderMultipleLowHeights;
-                    Export = CsvExport_MultipleLowTerminals;
+                case PlotMode.MultipleElevationAngles:
+                    Render = RenderMultipleElevationAngles;
 
-                    userControl = new MultipleLowHeightsInputsControl();
-
-                    IsModeOfPropEnabled = false;
-                    IsModeOfPropChecked = false;
+                    userControl = new MultipleElevationAnglesInputControl();
                     break;
-
-                case PlotMode.MultipleHighTerminals:
-                    Render = RenderMultipleHighHeights;
-                    Export = CsvExport_MultipleHighTerminals;
-
-                    userControl = new MultipleHighHeightsInputsControl();
-
-                    IsModeOfPropEnabled = false;
-                    IsModeOfPropChecked = false;
-                    break;
-
-                case PlotMode.MultipleTimes:
-                    Render = RenderMultipleTimes;
-                    Export = CsvExport_MultipleTimePercentages;
-
-                    userControl = new MultipleTimeInputsControl();
-
-                    IsModeOfPropEnabled = false;
-                    IsModeOfPropChecked = false;
-                    break;*/
             }
 
             grid_InputControls.Children.Add(userControl);
