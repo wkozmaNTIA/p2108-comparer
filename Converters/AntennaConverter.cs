@@ -5,18 +5,18 @@ using System.Windows.Data;
 
 namespace P2108Comparer.Converters
 {
-    class ScenerioConverter : IValueConverter
+    class AntennaConverter : IValueConverter
     {
         /// <summary>
-        /// Convert from GUI Scenerio to Model.Scenerio
+        /// Convert from GUI Antenna to Model.Antenna
         /// </summary>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var vs = (Scenerio[])value;
-            var ls = new TEMP2Model.Scenerio[3];
+            var vs = (Antenna[])value;
+            var ls = new TEMP2Model.Antenna[2];
 
             for (int i = 0; i < vs.Length; i++)
-                ls[i] = (TEMP2Model.Scenerio)((int)vs[i]);
+                ls[i] = (TEMP2Model.Antenna)((int)vs[i]);
 
             return ls;
         }

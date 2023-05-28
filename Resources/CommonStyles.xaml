@@ -6,11 +6,17 @@
     <!-- Data Converters -->
     <cvtr:DoubleToStringConverter x:Key="doubleConverter"/>
     <cvtr:ScenerioConverter x:Key="scenerioConverter"/>
+    <cvtr:AntennaConverter x:Key="antennaConverter"/>
 
     <!-- Object Data Providers -->
     <ObjectDataProvider x:Key="enumScenerio" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
         <ObjectDataProvider.MethodParameters>
             <x:Type TypeName="r:Scenerio"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider x:Key="enumAntenna" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="r:Antenna"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 

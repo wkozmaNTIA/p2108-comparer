@@ -16,8 +16,14 @@ namespace P2108Comparer.PropModels
             HighRise = 30
         }
 
+        public enum Antenna
+        {
+            Isotropic,
+            Directional
+        }
+
         public static int AeronauticalStatisticalModel(double f__ghz, double theta__deg, double p, 
-            double h__meter, Scenerio scenerio, bool directional, out double L_clt__db)
+            double h__meter, Scenerio scenerio, Antenna antenna, out double L_clt__db)
         {
             double C_e;
             double k;
@@ -65,7 +71,7 @@ namespace P2108Comparer.PropModels
                 {
                     L_clt__db = Math.Pow(7, p / LOSp) - 1 - InverseComplementaryCumulativeDistribution(Math.Sqrt(p / LOSp) / 2);
 
-                    if (directional)
+                    if (antenna == Antenna.Directional)
                         L_clt__db = Math.Max(L_clt__db, 0);
                 }
                 else // NLOS

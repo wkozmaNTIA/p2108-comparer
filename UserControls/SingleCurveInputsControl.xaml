@@ -26,6 +26,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Common Inputs" HorizontalAlignment="Center" FontWeight="Bold"/>
@@ -87,6 +88,17 @@
         <ComboBox Grid.Row="2" Grid.Column="4" TabIndex="7"
                   ItemsSource="{Binding Source={StaticResource enumScenerio}, Converter={StaticResource scenerioConverter}}"
                   SelectedItem="{Binding Path=Scenerio}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Grid.Row="3" Grid.Column="3" Text="Antenna:"/>
+        <ComboBox Grid.Row="3" Grid.Column="4" TabIndex="7"
+                  ItemsSource="{Binding Source={StaticResource enumAntenna}, Converter={StaticResource antennaConverter}}"
+                  SelectedItem="{Binding Path=Antenna}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" VerticalAlignment="Center"/>

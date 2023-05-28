@@ -141,6 +141,7 @@ namespace P2108Comparer
             double theta__deg = inputControl.theta__deg;
             double h__meter = inputControl.h__meter;
             var scenerio = inputControl.Scenerio;
+            var antenna = inputControl.Antenna;
 
             // clear any current data on the plot
             PlotModel.Series.Clear();
@@ -167,7 +168,7 @@ namespace P2108Comparer
                 P2108.AeronauticalStatisticalModel(f__ghz, theta__deg, p, out double L_ces__db);
                 p2108Series.Points.Add(new DataPoint(L_ces__db, p));
 
-                TEMP2Model.AeronauticalStatisticalModel(f__ghz, theta__deg, p, h__meter, scenerio, false, out double L_clt__db);
+                TEMP2Model.AeronauticalStatisticalModel(f__ghz, theta__deg, p, h__meter, scenerio, antenna, out double L_clt__db);
                 TEMP2Series.Points.Add(new DataPoint(L_clt__db, p));
             }
 

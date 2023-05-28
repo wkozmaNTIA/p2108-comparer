@@ -30,6 +30,11 @@ namespace P2108Comparer.UserControls
         public TEMP2Model.Scenerio Scenerio { get; set; } = TEMP2Model.Scenerio.LowRise;
 
         /// <summary>
+        /// Antenna type
+        /// </summary>
+        public TEMP2Model.Antenna Antenna { get; set; } = TEMP2Model.Antenna.Isotropic;
+
+        /// <summary>
         /// Number of validation errors
         /// </summary>
         public int ErrorCnt

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace P2108Comparer
+﻿namespace P2108Comparer
 {
     enum PlotMode
     {
@@ -20,5 +14,11 @@ namespace P2108Comparer
         LowRise = 10,
         MidRise = 20,
         HighRise = 30
+    }
+
+    enum Antenna
+    {
+        Isotropic,
+        Directional
     }
 }
