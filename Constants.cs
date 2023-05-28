@@ -23,6 +23,7 @@ namespace P2108Comparer
             OxyColors.Blue,
             OxyColors.Orange,
             OxyColors.Orchid,
+            OxyColors.Brown
         };
     }
 }
