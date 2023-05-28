@@ -35,6 +35,9 @@
                               IsChecked="True"
                               Command="{StaticResource PlotModeCommand}"
                               CommandParameter="{x:Static local:PlotMode.Single}"/>
+                <MenuItem Header="Multiple Frequencies"
+                          Command="{StaticResource PlotModeCommand}"
+                          CommandParameter="{x:Static local:PlotMode.MultipleFrequencies}"/>
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Plot Axis...">

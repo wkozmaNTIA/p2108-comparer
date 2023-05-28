@@ -74,6 +74,9 @@
     <Compile Include="Converters\ScenerioConverter.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="PropModels\TEMP2Model.cs" />
+    <Compile Include="UserControls\MultipleFrequenciesInputControl.xaml.cs">
+      <DependentUpon>MultipleFrequenciesInputControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SingleCurveInputsControl.xaml.cs">
       <DependentUpon>SingleCurveInputsControl.xaml</DependentUpon>
     </Compile>
@@ -87,6 +90,9 @@
     <Compile Include="ValidationRules\YAxisLimitsValidation.cs" />
     <Compile Include="Windows\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddFrequencieWindow.xaml.cs">
+      <DependentUpon>AddFrequencieWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\SetAxisWindow.xaml.cs">
       <DependentUpon>SetAxisWindow.xaml</DependentUpon>
@@ -107,11 +113,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\MultipleFrequenciesInputControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SingleCurveInputsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddFrequencieWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
